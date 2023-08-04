@@ -9,25 +9,35 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Fallback from '../Fallback';
 import formSteps from '../components/Form';
+// import { validateEmail } from '../helpers/validators';
 
 const Home = () => {
   const [stepIndex, setStepIndex] = useState(0);
   const [stepData, setStepData] = useState({});
+  const [touched, setTouched] = useState({
+    emailId: false,
+    password: false,
+    firstName: false,
+    lastName: false,
+    countryCode: false,
+    phoneNumber: false,
+  });
   // const navigate = useNavigate();
 
   const onSubmit = e => {
     e?.preventDefault();
-    const baseUrl = process.env.REACT_APP_API_URL;
 
-    const options = {
-      method: 'POST',
-      body: JSON.stringify(stepData),
-    };
+    // const baseUrl = process.env.REACT_APP_API_URL;
 
-    fetch(`${baseUrl}/submit`, options)
-      .then(res => res.json())
-      .then(() => {})
-      .catch(() => {});
+    // const options = {
+    //   method: 'POST',
+    //   body: JSON.stringify(stepData),
+    // };
+
+    // fetch(`${baseUrl}/submit`, options)
+    //   .then(res => res.json())
+    //   .then(data => console.log(data))
+    //   .catch(() => {});
 
     // navigate('/posts');
   };
@@ -52,19 +62,24 @@ const Home = () => {
     }));
   };
 
+  const blurHandler = field => {
+    setTouched({ ...touched, [field]: true });
+  };
+
   return (
     <main>
       <div className="bg-light p-5 mb-5">
         <h1>React + Bootstrap v4</h1>
+
         <p>React template with Bootstrap version v4</p>
         <p>
           <Button variant="primary">Learn more</Button>
         </p>
       </div>
       <Container>
-        <Form onSubmit={onSubmit}>
+        <Form noValidate onSubmit={onSubmit}>
           <Tabs
-            id="controlled-tab-example"
+            id="controlled-tab"
             activeKey={stepIndex}
             onSelect={k => setStepIndex(Number(k))}
             className="mb-3"
@@ -78,7 +93,11 @@ const Home = () => {
               >
                 <Suspense fallback={<Fallback />}>
                   {index === stepIndex && (
-                    <step.component formData={stepData} changeHandler={changeHandler} />
+                    <step.component
+                      formData={stepData}
+                      blurHandler={blurHandler}
+                      changeHandler={changeHandler}
+                    />
                   )}
                 </Suspense>
               </Tab>
