@@ -10,6 +10,7 @@ import Tabs from 'react-bootstrap/Tabs';
 import Fallback from '../Fallback';
 import formSteps from '../components/Form';
 import validate from '../helpers/validators';
+import SpaceBetween from '../components/Layout/SpaceBetween';
 
 const Home = () => {
   const [stepIndex, setStepIndex] = useState(0);
@@ -112,7 +113,7 @@ const Home = () => {
             ))}
           </Tabs>
 
-          <div className="d-flex justify-content-between">
+          <SpaceBetween>
             <Button
               disabled={stepIndex === 0}
               className="d-flex align-items-center gap-2"
@@ -135,7 +136,7 @@ const Home = () => {
                 <span>Save and Next</span>
               </Button>
             </div>
-          </div>
+          </SpaceBetween>
         </Form>
       </Container>
     </main>
