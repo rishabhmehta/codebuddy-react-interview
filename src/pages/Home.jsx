@@ -5,6 +5,8 @@ import Form from 'react-bootstrap/Form';
 // import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineSave } from 'react-icons/ai';
+import Tab from 'react-bootstrap/Tab';
+import Tabs from 'react-bootstrap/Tabs';
 import Fallback from '../Fallback';
 
 const steps = [
@@ -13,14 +15,23 @@ const steps = [
     component: lazy(
       () => new Promise(resolve => setTimeout(() => resolve(import('../components/Step1')), 2000)),
     ),
+    stepName: 'Auth',
+    disabled: () => false,
   },
   {
     id: 2,
     component: lazy(
       () => new Promise(resolve => setTimeout(() => resolve(import('../components/Step2')), 2000)),
     ),
+    stepName: 'Personal',
+    disabled: stepData => !(stepData.firstName && stepData.lastName && stepData.address),
   },
-  { id: 3, component: lazy(() => import('../components/Step3')) }, // No delay
+  {
+    id: 3,
+    component: lazy(() => import('../components/Step3')),
+    stepName: 'Contact',
+    disabled: stepData => !(stepData.countryCode && stepData.phoneNumber),
+  }, // No delay
 ];
 
 const Home = () => {
@@ -28,7 +39,9 @@ const Home = () => {
   const [stepData, setStepData] = useState({});
   // const navigate = useNavigate();
 
-  const StepComponent = steps[stepIndex].component;
+  console.log(stepData);
+
+  // const StepComponent = steps[stepIndex].component;
 
   const onSubmit = e => {
     e.preventDefault();
@@ -49,6 +62,7 @@ const Home = () => {
   };
 
   const changeHandler = (e, label) => {
+    console.log('Changing', label, 'to', e.target.value);
     setStepData(prevState => ({
       ...prevState,
       [label]: e.target.value,
@@ -66,9 +80,27 @@ const Home = () => {
       </div>
       <Container>
         <Form onSubmit={onSubmit}>
-          <Suspense fallback={<Fallback />}>
-            <StepComponent formData={stepData} changeHandler={changeHandler} />
-          </Suspense>
+          <Tabs
+            id="controlled-tab-example"
+            activeKey={stepIndex}
+            onSelect={k => setStepIndex(Number(k))}
+            className="mb-3"
+          >
+            {steps.map((step, index) => (
+              <Tab
+                eventKey={index}
+                title={step.stepName}
+                key={step.id}
+                disabled={step.disabled(stepData)}
+              >
+                <Suspense fallback={<Fallback />}>
+                  {index === stepIndex && (
+                    <step.component formData={stepData} changeHandler={changeHandler} />
+                  )}
+                </Suspense>
+              </Tab>
+            ))}
+          </Tabs>
 
           <div className="d-flex justify-content-between">
             <Button

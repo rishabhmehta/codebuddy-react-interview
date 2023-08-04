@@ -1,3 +1,3 @@
-const ControlledInput = (obj, key) => obj[key] || '';
+const controlledInput = (obj = {}, key) => obj[key] || '';
 
-export default ControlledInput;
+export default controlledInput;

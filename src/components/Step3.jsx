@@ -1,6 +1,6 @@
 import Form from 'react-bootstrap/Form';
 import createEventHandler from '../helpers/utility';
-import ControlledInput from '../helpers/ControlledInput';
+import controlledInput from '../helpers/controlledInput';
 
 const Step3 = ({ formData, changeHandler }) => (
   <>
@@ -8,7 +8,7 @@ const Step3 = ({ formData, changeHandler }) => (
     <Form.Select
       className="mb-3"
       aria-label="Default select example"
-      value={ControlledInput(formData, 'countryCode')}
+      value={controlledInput(formData, 'countryCode')}
       onChange={createEventHandler(changeHandler, 'countryCode')}
     >
       <option value="">Select Country Code</option>
@@ -21,7 +21,7 @@ const Step3 = ({ formData, changeHandler }) => (
       <Form.Control
         type="number"
         placeholder="Phone Number"
-        value={ControlledInput(formData, 'phoneNumber')}
+        value={controlledInput(formData, 'phoneNumber')}
         onChange={createEventHandler(changeHandler, 'phoneNumber')}
       />
     </Form.Group>
