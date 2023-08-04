@@ -1,4 +1,4 @@
-import { Suspense, lazy, useState } from 'react';
+import { Suspense, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
@@ -8,38 +8,12 @@ import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineSave } from 'react-ic
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Fallback from '../Fallback';
-
-const steps = [
-  {
-    id: 1,
-    component: lazy(
-      () => new Promise(resolve => setTimeout(() => resolve(import('../components/Step1')), 2000)),
-    ),
-    stepName: 'Auth',
-    disabled: () => false,
-  },
-  {
-    id: 2,
-    component: lazy(
-      () => new Promise(resolve => setTimeout(() => resolve(import('../components/Step2')), 2000)),
-    ),
-    stepName: 'Personal',
-    disabled: stepData => !(stepData.firstName && stepData.lastName && stepData.address),
-  },
-  {
-    id: 3,
-    component: lazy(() => import('../components/Step3')),
-    stepName: 'Contact',
-    disabled: stepData => !(stepData.countryCode && stepData.phoneNumber),
-  }, // No delay
-];
+import formSteps from '../components/Form/Form';
 
 const Home = () => {
   const [stepIndex, setStepIndex] = useState(0);
   const [stepData, setStepData] = useState({});
   // const navigate = useNavigate();
-
-  // const StepComponent = steps[stepIndex].component;
 
   const onSubmit = e => {
     e.preventDefault();
@@ -48,7 +22,7 @@ const Home = () => {
   };
 
   const nextStep = () => {
-    if (stepIndex < steps.length - 1) {
+    if (stepIndex < formSteps.length - 1) {
       setStepIndex(stepIndex + 1);
     }
   };
@@ -83,7 +57,7 @@ const Home = () => {
             onSelect={k => setStepIndex(Number(k))}
             className="mb-3"
           >
-            {steps.map((step, index) => (
+            {formSteps.map((step, index) => (
               <Tab
                 eventKey={index}
                 title={step.stepName}
@@ -114,7 +88,7 @@ const Home = () => {
                 <span>Save</span>
               </Button>
               <Button
-                disabled={stepIndex === steps.length - 1}
+                disabled={stepIndex === formSteps.length - 1}
                 className="d-flex align-items-center gap-2"
                 onClick={nextStep}
               >

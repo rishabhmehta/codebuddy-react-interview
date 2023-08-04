@@ -1,8 +1,8 @@
 import Form from 'react-bootstrap/Form';
-import createEventHandler from '../helpers/utility';
-import controlledInput from '../helpers/controlledInput';
+import createEventHandler from '../../../helpers/createEventHandler';
+import controlledInput from '../../../helpers/controlledInput';
 
-const Step3 = ({ formData, changeHandler }) => (
+const Contact = ({ formData, changeHandler }) => (
   <>
     <Form.Label>Country Code</Form.Label>
     <Form.Select
@@ -31,4 +31,4 @@ const Step3 = ({ formData, changeHandler }) => (
     </Form.Group>
   </>
 );
-export default Step3;
+export default Contact;

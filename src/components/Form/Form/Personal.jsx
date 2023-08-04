@@ -1,8 +1,8 @@
 import Form from 'react-bootstrap/Form';
-import createEventHandler from '../helpers/utility';
-import controlledInput from '../helpers/controlledInput';
+import createEventHandler from '../../../helpers/createEventHandler';
+import controlledInput from '../../../helpers/controlledInput';
 
-const Step2 = ({ formData, changeHandler }) => (
+const Personal = ({ formData, changeHandler }) => (
   <>
     <Form.Group className="mb-3" controlId="formBasicPassword">
       <Form.Label>First Name</Form.Label>
@@ -36,4 +36,4 @@ const Step2 = ({ formData, changeHandler }) => (
   </>
 );
 
-export default Step2;
+export default Personal;
