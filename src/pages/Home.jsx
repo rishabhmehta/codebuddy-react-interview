@@ -1,13 +1,30 @@
-import { useState } from 'react';
+import { Suspense, lazy, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineSave } from 'react-icons/ai';
-import createEventHandler from '../helpers/utility';
+import Fallback from '../Fallback';
+
+const steps = [
+  {
+    id: 1,
+    component: lazy(
+      () => new Promise(resolve => setTimeout(() => resolve(import('../components/Step1')), 2000)),
+    ),
+  },
+  {
+    id: 2,
+    component: lazy(
+      () => new Promise(resolve => setTimeout(() => resolve(import('../components/Step2')), 2000)),
+    ),
+  },
+  { id: 3, component: lazy(() => import('../components/Step3')) }, // No delay
+];
 
 const Home = () => {
+  const [stepIndex, setStepIndex] = useState(0);
   const [formData, setFormData] = useState({
     emailId: '',
     password: '',
@@ -19,7 +36,21 @@ const Home = () => {
   });
   const navigate = useNavigate();
 
+  const StepComponent = steps[stepIndex].component;
+
   const onSubmit = () => navigate('/posts');
+
+  const nextStep = () => {
+    if (stepIndex < steps.length - 1) {
+      setStepIndex(stepIndex + 1);
+    }
+  };
+
+  const prevStep = () => {
+    if (stepIndex > 0) {
+      setStepIndex(stepIndex - 1);
+    }
+  };
 
   const changeHandler = (e, label) => {
     setFormData(prevState => ({
@@ -39,86 +70,16 @@ const Home = () => {
       </div>
       <Container>
         <Form>
-          <Form.Group className="mb-3" controlId="formBasicEmail">
-            <Form.Label>Email address</Form.Label>
-            <Form.Control
-              type="email"
-              placeholder="Enter email"
-              value={formData.emailId}
-              onChange={createEventHandler(changeHandler, 'emailId')}
-            />
-            <Form.Text className="text-muted">
-              We&apos;ll never share your email with anyone else.
-            </Form.Text>
-          </Form.Group>
+          <Suspense fallback={<Fallback />}>
+            <StepComponent formData={formData} changeHandler={changeHandler} />
+          </Suspense>
 
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Password</Form.Label>
-            <Form.Control
-              type="password"
-              placeholder="Password"
-              value={formData.password}
-              onChange={createEventHandler(changeHandler, 'password')}
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>First Name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="First Name"
-              value={formData.firstName}
-              onChange={createEventHandler(changeHandler, 'firstName')}
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Last Name</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Last Name"
-              value={formData.lastName}
-              onChange={createEventHandler(changeHandler, 'lastName')}
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Address</Form.Label>
-            <Form.Control
-              type="text"
-              placeholder="Address"
-              value={formData.address}
-              onChange={createEventHandler(changeHandler, 'address')}
-            />
-          </Form.Group>
-
-          <Form.Label>Country Code</Form.Label>
-          <Form.Select
-            className="mb-3"
-            aria-label="Default select example"
-            value={formData.countryCode}
-            onChange={createEventHandler(changeHandler, 'countryCode')}
-          >
-            <option value="">Select Country Code</option>
-            <option value="India (+91)">+91</option>
-            <option value="America (+1)">+1</option>
-          </Form.Select>
-
-          <Form.Group className="mb-3" controlId="formBasicPassword">
-            <Form.Label>Phone Number</Form.Label>
-            <Form.Control
-              type="number"
-              placeholder="Phone Number"
-              value={formData.phoneNumber}
-              onChange={createEventHandler(changeHandler, 'phoneNumber')}
-            />
-          </Form.Group>
-
-          <Form.Group className="mb-3" controlId="formBasicCheckbox">
-            <Form.Check type="checkbox" label="Check me out" />
-          </Form.Group>
           <div className="d-flex justify-content-between">
-            <Button className="d-flex align-items-center gap-2" onClick={onSubmit}>
+            <Button
+              disabled={stepIndex === 0}
+              className="d-flex align-items-center gap-2"
+              onClick={prevStep}
+            >
               <AiOutlineArrowLeft />
               <span>Back</span>
             </Button>
@@ -127,7 +88,11 @@ const Home = () => {
                 <AiOutlineSave />
                 <span>Save</span>
               </Button>
-              <Button className="d-flex align-items-center gap-2" onClick={onSubmit}>
+              <Button
+                disabled={stepIndex === steps.length - 1}
+                className="d-flex align-items-center gap-2"
+                onClick={nextStep}
+              >
                 <AiOutlineArrowRight />
                 <span>Save and Next</span>
               </Button>
