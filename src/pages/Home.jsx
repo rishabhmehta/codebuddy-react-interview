@@ -16,13 +16,25 @@ const Home = () => {
   // const navigate = useNavigate();
 
   const onSubmit = e => {
-    e.preventDefault();
+    e?.preventDefault();
+    const baseUrl = process.env.REACT_APP_API_URL;
+
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(stepData),
+    };
+
+    fetch(`${baseUrl}/submit`, options)
+      .then(res => res.json())
+      .then(() => {})
+      .catch(() => {});
 
     // navigate('/posts');
   };
 
   const nextStep = () => {
     if (stepIndex < formSteps.length - 1) {
+      onSubmit(null);
       setStepIndex(stepIndex + 1);
     }
   };
