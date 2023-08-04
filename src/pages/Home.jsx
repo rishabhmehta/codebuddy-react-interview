@@ -2,7 +2,7 @@ import { Suspense, lazy, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineSave } from 'react-icons/ai';
 import Fallback from '../Fallback';
@@ -25,20 +25,16 @@ const steps = [
 
 const Home = () => {
   const [stepIndex, setStepIndex] = useState(0);
-  const [formData, setFormData] = useState({
-    emailId: '',
-    password: '',
-    firstName: '',
-    lastName: '',
-    address: '',
-    countryCode: '',
-    phoneNumber: '',
-  });
-  const navigate = useNavigate();
+  const [stepData, setStepData] = useState({});
+  // const navigate = useNavigate();
 
   const StepComponent = steps[stepIndex].component;
 
-  const onSubmit = () => navigate('/posts');
+  const onSubmit = e => {
+    e.preventDefault();
+
+    // navigate('/posts');
+  };
 
   const nextStep = () => {
     if (stepIndex < steps.length - 1) {
@@ -53,7 +49,7 @@ const Home = () => {
   };
 
   const changeHandler = (e, label) => {
-    setFormData(prevState => ({
+    setStepData(prevState => ({
       ...prevState,
       [label]: e.target.value,
     }));
@@ -69,9 +65,9 @@ const Home = () => {
         </p>
       </div>
       <Container>
-        <Form>
+        <Form onSubmit={onSubmit}>
           <Suspense fallback={<Fallback />}>
-            <StepComponent formData={formData} changeHandler={changeHandler} />
+            <StepComponent formData={stepData} changeHandler={changeHandler} />
           </Suspense>
 
           <div className="d-flex justify-content-between">
@@ -84,7 +80,7 @@ const Home = () => {
               <span>Back</span>
             </Button>
             <div className="d-flex gap-4">
-              <Button className="d-flex align-items-center gap-2" onClick={onSubmit}>
+              <Button type="submit" className="d-flex align-items-center gap-2">
                 <AiOutlineSave />
                 <span>Save</span>
               </Button>

@@ -1,5 +1,6 @@
 import Form from 'react-bootstrap/Form';
 import createEventHandler from '../helpers/utility';
+import ControlledInput from '../helpers/ControlledInput';
 
 const Step2 = ({ formData, changeHandler }) => (
   <>
@@ -8,7 +9,7 @@ const Step2 = ({ formData, changeHandler }) => (
       <Form.Control
         type="text"
         placeholder="First Name"
-        value={formData.firstName}
+        value={ControlledInput(formData, 'firstName')}
         onChange={createEventHandler(changeHandler, 'firstName')}
       />
     </Form.Group>
@@ -18,7 +19,7 @@ const Step2 = ({ formData, changeHandler }) => (
       <Form.Control
         type="text"
         placeholder="Last Name"
-        value={formData.lastName}
+        value={ControlledInput(formData, 'lastName')}
         onChange={createEventHandler(changeHandler, 'lastName')}
       />
     </Form.Group>
@@ -28,7 +29,7 @@ const Step2 = ({ formData, changeHandler }) => (
       <Form.Control
         type="text"
         placeholder="Address"
-        value={formData.address}
+        value={ControlledInput(formData, 'address')}
         onChange={createEventHandler(changeHandler, 'address')}
       />
     </Form.Group>
