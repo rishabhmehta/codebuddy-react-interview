@@ -1,13 +1,14 @@
 import { lazy } from 'react';
+import hasOwnProperties from '../../helpers/hasOwnProperties';
 
-const formSteps = [
+const formController = [
   {
     id: 1,
     component: lazy(
       () => new Promise(resolve => setTimeout(() => resolve(import('./Auth')), 2000)),
     ),
     stepName: 'Auth',
-    disabled: () => false,
+    fields: [],
   },
   {
     id: 2,
@@ -15,14 +16,19 @@ const formSteps = [
       () => new Promise(resolve => setTimeout(() => resolve(import('./Personal')), 2000)),
     ),
     stepName: 'Personal',
-    disabled: stepData => !(stepData.firstName && stepData.lastName && stepData.address),
+    fields: ['firstName', 'lastName', 'address'],
   },
   {
     id: 3,
     component: lazy(() => import('./Contact')),
     stepName: 'Contact',
-    disabled: stepData => !(stepData.countryCode && stepData.phoneNumber),
+    fields: ['countryCode', 'phoneNumber'],
   },
 ];
+
+const formSteps = formController.map((step, index, array) => ({
+  ...step,
+  disabled: stepData => (index === 0 ? false : !hasOwnProperties(stepData, ...array[index].fields)),
+}));
 
 export default formSteps;
