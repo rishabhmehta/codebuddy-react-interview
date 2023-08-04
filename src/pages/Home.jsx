@@ -2,7 +2,7 @@ import { Suspense, useState } from 'react';
 import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
-// import { useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineSave } from 'react-icons/ai';
 import Tab from 'react-bootstrap/Tab';
@@ -25,24 +25,29 @@ const Home = () => {
     countryCode: false,
     phoneNumber: false,
   });
-  // const navigate = useNavigate();
+
+  const navigate = useNavigate();
 
   const onSubmit = e => {
     e?.preventDefault();
 
-    // const baseUrl = process.env.REACT_APP_API_URL;
+    const baseUrl = process.env.REACT_APP_API_URL;
 
-    // const options = {
-    //   method: 'POST',
-    //   body: JSON.stringify(stepData),
-    // };
+    const options = {
+      method: 'POST',
+      body: JSON.stringify(stepData),
+    };
 
-    // fetch(`${baseUrl}/submit`, options)
-    //   .then(res => res.json())
-    //   .then(data => console.log(data))
-    //   .catch(() => {});
+    const allFieldsValid = Object.values(isFieldValid).every(value => value === true);
 
-    // navigate('/posts');
+    if (stepIndex === formSteps.length - 1 && allFieldsValid) {
+      fetch(`${baseUrl}/submit`, options)
+        .then(res => res.json())
+        .then(() => {})
+        .catch(() => {});
+
+      navigate('/posts');
+    }
   };
 
   const nextStep = () => {

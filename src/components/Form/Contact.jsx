@@ -34,7 +34,9 @@ const Contact = ({ formData, changeHandler, isFieldValid, touched, blurHandler }
         required
       />
       <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-      <Form.Control.Feedback type="invalid">Please provide a phone number.</Form.Control.Feedback>
+      <Form.Control.Feedback type="invalid">
+        Please provide a valid phone number.
+      </Form.Control.Feedback>
     </Form.Group>
 
     <Form.Group className="mb-3" controlId="formBasicCheckbox">
