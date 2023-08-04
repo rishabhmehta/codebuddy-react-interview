@@ -3,8 +3,8 @@ import Button from 'react-bootstrap/Button';
 import Container from 'react-bootstrap/Container';
 import Form from 'react-bootstrap/Form';
 import { useNavigate } from 'react-router-dom';
+// eslint-disable-next-line import/no-extraneous-dependencies
 import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineSave } from 'react-icons/ai';
-// import { FaSpinner } from 'react-icons/fa';
 import createEventHandler from '../helpers/utility';
 
 const Home = () => {

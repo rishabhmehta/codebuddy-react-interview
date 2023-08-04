@@ -22,7 +22,6 @@
   ],
   "rules": {
     "prettier/prettier": "error",
-    "import/no-extraneous-dependencies": "off",
     "indent": 0,
     "max-len": "off",
     "linebreak-style": ["error", "unix"],
