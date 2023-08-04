@@ -9,16 +9,18 @@ import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Fallback from '../Fallback';
 import formSteps from '../components/Form';
-// import { validateEmail } from '../helpers/validators';
+import validate from '../helpers/validators';
 
 const Home = () => {
   const [stepIndex, setStepIndex] = useState(0);
   const [stepData, setStepData] = useState({});
+  const [isFieldValid, setIsFieldValid] = useState({});
   const [touched, setTouched] = useState({
     emailId: false,
     password: false,
     firstName: false,
     lastName: false,
+    address: false,
     countryCode: false,
     phoneNumber: false,
   });
@@ -60,6 +62,10 @@ const Home = () => {
       ...prevState,
       [label]: e.target.value,
     }));
+    setIsFieldValid(prevState => ({
+      ...prevState,
+      [label]: validate[label](e.target.value),
+    }));
   };
 
   const blurHandler = field => {
@@ -97,6 +103,8 @@ const Home = () => {
                       formData={stepData}
                       blurHandler={blurHandler}
                       changeHandler={changeHandler}
+                      isFieldValid={isFieldValid}
+                      touched={touched}
                     />
                   )}
                 </Suspense>

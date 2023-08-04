@@ -1,6 +1,5 @@
 import { lazy } from 'react';
 import hasOwnProperties from '../../helpers/hasOwnProperties';
-import { validateEmail, validatePassword } from '../../helpers/validators';
 
 const formController = [
   {
@@ -10,7 +9,6 @@ const formController = [
     ),
     stepName: 'Auth',
     fields: [],
-    validation: { emailId: validateEmail, password: validatePassword },
   },
   {
     id: 2,

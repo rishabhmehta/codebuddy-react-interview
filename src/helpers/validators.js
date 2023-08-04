@@ -18,7 +18,6 @@ function validatePassword(password) {
   let valid = true;
   for (let i = 0; i < checks.length; i++) {
     if (!checks[i].regex.test(password)) {
-      // console.log(checks[i].message);
       valid = false;
     }
   }
@@ -26,7 +25,7 @@ function validatePassword(password) {
   return valid;
 }
 
-function validateName(firstName) {
+function validateFirstName(firstName) {
   const regex = /^[a-zA-Z]{2,50}$/;
   if (!regex.test(firstName)) {
     return false;
@@ -35,8 +34,26 @@ function validateName(firstName) {
   return true;
 }
 
+function validateLastName(lastName) {
+  const regex = /^[a-zA-Z]{2,50}$/;
+  // If the name is empty, return true
+  if (!lastName) {
+    return true;
+  }
+
+  return regex.test(lastName);
+}
+
 function validateAddress(address) {
   if (address.length < 10) {
+    return false;
+  }
+
+  return true;
+}
+
+function validateCountryCode(countryCode) {
+  if (!countryCode) {
     return false;
   }
 
@@ -52,14 +69,14 @@ function validatePhoneNumber(phoneNumber) {
   return true;
 }
 
-// const validate = {
-//   email: validateEmail,
-//   password: validatePassword,
-//   firstName: validateName,
-//   lastName: validateName,
-//   address: validateAddress,
-//   phoneNumber: validatePhoneNumber,
-// };
+const validate = {
+  emailId: validateEmail,
+  password: validatePassword,
+  firstName: validateFirstName,
+  lastName: validateLastName,
+  address: validateAddress,
+  countryCode: validateCountryCode,
+  phoneNumber: validatePhoneNumber,
+};
 
-// export default validate;
-export { validateEmail, validatePassword, validateName, validateAddress, validatePhoneNumber };
+export default validate;

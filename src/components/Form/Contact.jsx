@@ -18,7 +18,7 @@ const Contact = ({ formData, changeHandler, isFieldValid, touched, blurHandler }
         <option value="America (+1)">+1</option>
       </Form.Select>
       <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-      <Form.Control.Feedback type="invalid">Please provide a address.</Form.Control.Feedback>
+      <Form.Control.Feedback type="invalid">Please select a country code.</Form.Control.Feedback>
     </Form.Group>
 
     <Form.Group className="mb-3" controlId="formBasicPassword">
@@ -34,7 +34,7 @@ const Contact = ({ formData, changeHandler, isFieldValid, touched, blurHandler }
         required
       />
       <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
-      <Form.Control.Feedback type="invalid">Please provide a address.</Form.Control.Feedback>
+      <Form.Control.Feedback type="invalid">Please provide a phone number.</Form.Control.Feedback>
     </Form.Group>
 
     <Form.Group className="mb-3" controlId="formBasicCheckbox">

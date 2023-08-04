@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import Form from 'react-bootstrap/Form';
 import createEventHandler from '../../helpers/createEventHandler';
 import controlledInput from '../../helpers/controlledInput';
@@ -23,8 +22,8 @@ const Auth = ({ formData, changeHandler, isFieldValid, touched, blurHandler }) =
         value={controlledInput(formData, 'emailId')}
         onChange={createEventHandler(changeHandler, 'emailId')}
         onBlur={() => blurHandler('emailId')}
-        isValid={touched?.emailId && isFieldValid?.email}
-        isInvalid={touched?.emailId && !isFieldValid?.email}
+        isValid={touched?.emailId && isFieldValid?.emailId}
+        isInvalid={touched?.emailId && !isFieldValid?.emailId}
         required
       />
       <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
@@ -47,10 +46,10 @@ const Auth = ({ formData, changeHandler, isFieldValid, touched, blurHandler }) =
       <Form.Control.Feedback>Looks good!</Form.Control.Feedback>
       <Form.Text className="text-muted">
         <div className="d-flex flex-column">
-          <p className="m-0 text-danger">Must contain at least 2 uppercase letters</p>
-          <p className="m-0 text-danger">Must contain at least 2 lowercase letters</p>
-          <p className="m-0 text-danger">Must contain at least 2 digits</p>
-          <p className="m-0 text-danger">Must contain at least 2 special characters</p>
+          <p className="m-0">Must contain at least 2 uppercase letters</p>
+          <p className="m-0">Must contain at least 2 lowercase letters</p>
+          <p className="m-0">Must contain at least 2 digits</p>
+          <p className="m-0">Must contain at least 2 special characters</p>
         </div>
       </Form.Text>
     </Form.Group>
