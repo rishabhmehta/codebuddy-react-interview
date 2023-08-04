@@ -39,8 +39,6 @@ const Home = () => {
   const [stepData, setStepData] = useState({});
   // const navigate = useNavigate();
 
-  console.log(stepData);
-
   // const StepComponent = steps[stepIndex].component;
 
   const onSubmit = e => {
@@ -62,7 +60,6 @@ const Home = () => {
   };
 
   const changeHandler = (e, label) => {
-    console.log('Changing', label, 'to', e.target.value);
     setStepData(prevState => ({
       ...prevState,
       [label]: e.target.value,
