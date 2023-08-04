@@ -8,7 +8,7 @@ import { AiOutlineArrowLeft, AiOutlineArrowRight, AiOutlineSave } from 'react-ic
 import Tab from 'react-bootstrap/Tab';
 import Tabs from 'react-bootstrap/Tabs';
 import Fallback from '../Fallback';
-import formSteps from '../components/Form/Form';
+import formSteps from '../components/Form';
 
 const Home = () => {
   const [stepIndex, setStepIndex] = useState(0);

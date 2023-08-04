@@ -1,6 +1,6 @@
 import Form from 'react-bootstrap/Form';
-import createEventHandler from '../../../helpers/createEventHandler';
-import controlledInput from '../../../helpers/controlledInput';
+import createEventHandler from '../../helpers/createEventHandler';
+import controlledInput from '../../helpers/controlledInput';
 
 const Personal = ({ formData, changeHandler }) => (
   <>
