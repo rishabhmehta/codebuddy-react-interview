@@ -55,13 +55,29 @@ const Home = () => {
         .catch(() => {});
 
       navigate('/posts');
+    } else {
+      const currentStepFields = formSteps[stepIndex].fields;
+      const newTouched = { ...touched };
+      currentStepFields.forEach(field => {
+        newTouched[field] = true;
+      });
+      setTouched(newTouched);
     }
   };
 
   const nextStep = () => {
-    if (stepIndex < formSteps.length - 1) {
-      onSubmit(null);
+    const currentStepFields = formSteps[stepIndex].fields;
+
+    const allCurrentFieldsValid = currentStepFields.every(field => isFieldValid[field]);
+
+    if (allCurrentFieldsValid && stepIndex < formSteps.length - 1) {
       setStepIndex(stepIndex + 1);
+    } else {
+      const newTouched = { ...touched };
+      currentStepFields.forEach(field => {
+        newTouched[field] = true;
+      });
+      setTouched(newTouched);
     }
   };
 

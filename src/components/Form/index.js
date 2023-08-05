@@ -8,7 +8,7 @@ const formController = [
       () => new Promise(resolve => setTimeout(() => resolve(import('./Auth')), 2000)),
     ),
     stepName: 'Auth',
-    fields: [],
+    fields: ['emailId', 'password'],
   },
   {
     id: 2,
