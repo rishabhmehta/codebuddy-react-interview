@@ -1,18 +1,8 @@
 import Form from 'react-bootstrap/Form';
 import createEventHandler from '../../helpers/createEventHandler';
 import controlledInput from '../../helpers/controlledInput';
-// import { validateEmail, validatePassword } from '../../helpers/validators';
 
 const Auth = ({ formData, changeHandler, isFieldValid, touched, blurHandler }) => (
-  // const [touched, setTouched] = useState({ emailId: false, password: false });
-
-  // const blurHandler = field => {
-  //   setTouched({ ...touched, [field]: true });
-  // };
-
-  // const isEmailValid = validateEmail(formData.emailId);
-  // const isPasswordValid = validatePassword(formData.password);
-
   <>
     <Form.Group className="mb-3" controlId="formBasicEmail">
       <Form.Label>Email address</Form.Label>
