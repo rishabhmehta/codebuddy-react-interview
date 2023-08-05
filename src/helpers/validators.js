@@ -45,7 +45,8 @@ function validateLastName(lastName) {
 }
 
 function validateAddress(address) {
-  if (address.length < 10) {
+  const regex = /^[A-Za-z0-9.,\-'" ]{10,}$/;
+  if (!regex.test(address)) {
     return false;
   }
 
@@ -69,6 +70,10 @@ function validatePhoneNumber(phoneNumber) {
   return true;
 }
 
+function validateCheckbox(checkbox) {
+  return checkbox === true;
+}
+
 const validate = {
   emailId: validateEmail,
   password: validatePassword,
@@ -77,6 +82,7 @@ const validate = {
   address: validateAddress,
   countryCode: validateCountryCode,
   phoneNumber: validatePhoneNumber,
+  tnc: validateCheckbox,
 };
 
 export default validate;

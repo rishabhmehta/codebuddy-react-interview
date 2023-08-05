@@ -15,8 +15,7 @@ import SpaceBetween from '../components/Layout/SpaceBetween';
 const Home = () => {
   const [stepIndex, setStepIndex] = useState(0);
   const [stepData, setStepData] = useState({});
-  const [isFieldValid, setIsFieldValid] = useState({});
-  const [touched, setTouched] = useState({
+  const [isFieldValid, setIsFieldValid] = useState({
     emailId: false,
     password: false,
     firstName: false,
@@ -25,22 +24,31 @@ const Home = () => {
     countryCode: false,
     phoneNumber: false,
   });
+  const [touched, setTouched] = useState({
+    emailId: false,
+    password: false,
+    firstName: false,
+    lastName: false,
+    address: false,
+    countryCode: false,
+    phoneNumber: false,
+    tnc: false,
+  });
 
   const navigate = useNavigate();
 
   const onSubmit = e => {
     e?.preventDefault();
-
-    const baseUrl = process.env.REACT_APP_API_URL;
-
-    const options = {
-      method: 'POST',
-      body: JSON.stringify(stepData),
-    };
-
     const allFieldsValid = Object.values(isFieldValid).every(value => value === true);
 
     if (stepIndex === formSteps.length - 1 && allFieldsValid) {
+      const baseUrl = process.env.REACT_APP_API_URL;
+
+      const options = {
+        method: 'POST',
+        body: JSON.stringify(stepData),
+      };
+
       fetch(`${baseUrl}/submit`, options)
         .then(res => res.json())
         .then(() => {})
@@ -64,14 +72,25 @@ const Home = () => {
   };
 
   const changeHandler = (e, label) => {
-    setStepData(prevState => ({
-      ...prevState,
-      [label]: e.target.value,
-    }));
-    setIsFieldValid(prevState => ({
-      ...prevState,
-      [label]: validate[label](e.target.value),
-    }));
+    if (label === 'tnc') {
+      setStepData(prevState => ({
+        ...prevState,
+        [label]: e.target.checked,
+      }));
+      setIsFieldValid(prevState => ({
+        ...prevState,
+        [label]: validate[label](e.target.checked),
+      }));
+    } else {
+      setStepData(prevState => ({
+        ...prevState,
+        [label]: e.target.value,
+      }));
+      setIsFieldValid(prevState => ({
+        ...prevState,
+        [label]: validate[label](e.target.value),
+      }));
+    }
   };
 
   const blurHandler = field => {
