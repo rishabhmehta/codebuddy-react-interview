@@ -37,6 +37,15 @@ const Home = () => {
 
   const navigate = useNavigate();
 
+  const markFieldsAsTouched = () => {
+    const currentStepFields = formSteps[stepIndex].fields;
+    const newTouched = { ...touched };
+    currentStepFields.forEach(field => {
+      newTouched[field] = true;
+    });
+    setTouched(newTouched);
+  };
+
   const onSubmit = e => {
     e?.preventDefault();
     const allFieldsValid = Object.values(isFieldValid).every(value => value === true);
@@ -55,14 +64,7 @@ const Home = () => {
         .catch(() => {});
 
       navigate('/posts');
-    } else {
-      const currentStepFields = formSteps[stepIndex].fields;
-      const newTouched = { ...touched };
-      currentStepFields.forEach(field => {
-        newTouched[field] = true;
-      });
-      setTouched(newTouched);
-    }
+    } else markFieldsAsTouched();
   };
 
   const nextStep = () => {
@@ -72,13 +74,7 @@ const Home = () => {
 
     if (allCurrentFieldsValid && stepIndex < formSteps.length - 1) {
       setStepIndex(stepIndex + 1);
-    } else {
-      const newTouched = { ...touched };
-      currentStepFields.forEach(field => {
-        newTouched[field] = true;
-      });
-      setTouched(newTouched);
-    }
+    } else markFieldsAsTouched();
   };
 
   const prevStep = () => {
@@ -87,26 +83,18 @@ const Home = () => {
     }
   };
 
+  const updateState = (stateFunc, label, value) => {
+    stateFunc(prevState => ({
+      ...prevState,
+      [label]: value,
+    }));
+  };
+
   const changeHandler = (e, label) => {
-    if (label === 'tnc') {
-      setStepData(prevState => ({
-        ...prevState,
-        [label]: e.target.checked,
-      }));
-      setIsFieldValid(prevState => ({
-        ...prevState,
-        [label]: validate[label](e.target.checked),
-      }));
-    } else {
-      setStepData(prevState => ({
-        ...prevState,
-        [label]: e.target.value,
-      }));
-      setIsFieldValid(prevState => ({
-        ...prevState,
-        [label]: validate[label](e.target.value),
-      }));
-    }
+    const value = label === 'tnc' ? e.target.checked : e.target.value;
+
+    updateState(setStepData, label, value);
+    updateState(setIsFieldValid, label, validate[label](value));
   };
 
   const blurHandler = field => {
