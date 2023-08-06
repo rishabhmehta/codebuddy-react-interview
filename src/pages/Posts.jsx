@@ -20,7 +20,7 @@ const Posts = () => {
       <div className="text-center fs-4">List of Posts</div>
 
       <div>
-        <div className="container">
+        <div className="postsContainer">
           {posts.map((post, index) => (
             <div className="cardContainer" key={post.id}>
               <div>
